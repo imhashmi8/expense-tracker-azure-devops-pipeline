@@ -1,0 +1,44 @@
+namespace: expenseflow-dev
+
+backend:
+  replicaCount: 1
+  image:
+    tag: dev-latest
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 250m
+      memory: 256Mi
+  env:
+    DEBUG: "true"
+    FRONTEND_ORIGINS: "*"
+    SEED_DEMO_DATA: "true"
+  secretEnv:
+    JWT_SECRET: "replace-dev-jwt-secret"
+    DATABASE_URL: "replace-dev-database-url"
+    REDIS_URL: "replace-dev-redis-url"
+    AZURE_BLOB_CONNECTION_STRING: "replace-dev-blob-connection-string"
+
+frontend:
+  replicaCount: 1
+  image:
+    tag: dev-latest
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 250m
+      memory: 256Mi
+  env:
+    NEXT_PUBLIC_API_BASE_URL: "/api"
+
+ingress:
+  enabled: true
+  className: nginx
+  host: ""
+  tls:
+    enabled: false
+    secretName: expenseflow-dev-tls

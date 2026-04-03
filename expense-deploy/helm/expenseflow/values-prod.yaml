@@ -1,0 +1,44 @@
+namespace: expenseflow-prod
+
+backend:
+  replicaCount: 2
+  image:
+    tag: prod-latest
+  resources:
+    requests:
+      cpu: 250m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+  env:
+    DEBUG: "false"
+    FRONTEND_ORIGINS: "*"
+    SEED_DEMO_DATA: "false"
+  secretEnv:
+    JWT_SECRET: "replace-prod-jwt-secret"
+    DATABASE_URL: "replace-prod-database-url"
+    REDIS_URL: "replace-prod-redis-url"
+    AZURE_BLOB_CONNECTION_STRING: "replace-prod-blob-connection-string"
+
+frontend:
+  replicaCount: 2
+  image:
+    tag: prod-latest
+  resources:
+    requests:
+      cpu: 200m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+  env:
+    NEXT_PUBLIC_API_BASE_URL: "/api"
+
+ingress:
+  enabled: true
+  className: nginx
+  host: ""
+  tls:
+    enabled: false
+    secretName: expenseflow-prod-tls
