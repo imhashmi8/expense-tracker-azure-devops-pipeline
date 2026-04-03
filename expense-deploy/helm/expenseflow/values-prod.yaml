@@ -16,10 +16,10 @@ backend:
     FRONTEND_ORIGINS: "*"
     SEED_DEMO_DATA: "false"
   secretEnv:
-    JWT_SECRET: "replace-prod-jwt-secret"
-    DATABASE_URL: "replace-prod-database-url"
-    REDIS_URL: "replace-prod-redis-url"
-    AZURE_BLOB_CONNECTION_STRING: "replace-prod-blob-connection-string"
+    JWT_SECRET: ""
+    DATABASE_URL: ""
+    REDIS_URL: ""
+    AZURE_BLOB_CONNECTION_STRING: ""
 
 frontend:
   replicaCount: 2
