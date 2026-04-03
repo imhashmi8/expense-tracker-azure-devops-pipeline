@@ -5,8 +5,6 @@ metadata:
   name: {{ include "expenseflow.fullname" . }}
   labels:
     {{- include "expenseflow.labels" . | nindent 4 }}
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   ingressClassName: {{ .Values.ingress.className }}
   {{- if and .Values.ingress.tls.enabled .Values.ingress.host }}
@@ -21,15 +19,15 @@ spec:
       {{- end }}
       http:
         paths:
-          - path: /api(/|$)(.*)
-            pathType: ImplementationSpecific
+          - path: /api
+            pathType: Prefix
             backend:
               service:
                 name: {{ include "expenseflow.fullname" . }}-backend
                 port:
                   number: {{ .Values.backend.service.port }}
-          - path: /()(.*)
-            pathType: ImplementationSpecific
+          - path: /
+            pathType: Prefix
             backend:
               service:
                 name: {{ include "expenseflow.fullname" . }}-frontend
