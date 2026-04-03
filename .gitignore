@@ -1,0 +1,13 @@
+.DS_Store
+.env
+.venv
+venv
+__pycache__/
+*.pyc
+expense-app/backend/uploads/
+expense-app/frontend/.next/
+expense-app/frontend/node_modules/
+coverage/
+dist/
+
+
