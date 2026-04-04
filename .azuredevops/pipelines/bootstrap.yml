@@ -1,0 +1,60 @@
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - expense-infra/bootstrap/*
+      - expense-infra/bootstrap/**
+      - .azuredevops/pipelines/bootstrap.yml
+
+pr:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - expense-infra/bootstrap/*
+      - expense-infra/bootstrap/**
+      - .azuredevops/pipelines/bootstrap.yml
+
+variables:
+  - group: expenseflow-bootstrap
+  - name: azureServiceConnection
+    value: sc-expenseflow-azure
+
+pool:
+  name: Default
+  demands:
+    - Agent.Name -equals devops-self-hosted-agent
+
+stages:
+  - stage: Bootstrap
+    displayName: Bootstrap tfstate backend
+    jobs:
+      - deployment: BootstrapApply
+        displayName: Apply bootstrap
+        environment: bootstrap
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: self
+                  fetchDepth: 0
+
+                - task: AzureCLI@2
+                  displayName: Terraform bootstrap apply
+                  inputs:
+                    azureSubscription: $(azureServiceConnection)
+                    scriptType: bash
+                    scriptLocation: inlineScript
+                    workingDirectory: $(Build.SourcesDirectory)/expense-infra/bootstrap
+                    inlineScript: |
+                      set -euo pipefail
+
+                      terraform version
+
+                      terraform init -upgrade
+                      terraform validate
+                      terraform plan -out=tfplan
+                      terraform apply -auto-approve tfplan
