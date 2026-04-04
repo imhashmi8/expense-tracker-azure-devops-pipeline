@@ -1,5 +1,26 @@
-trigger: none
-pr: none
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - expense-infra/modules/*
+      - expense-infra/modules/**
+      - expense-infra/envs/*
+      - expense-infra/envs/**
+      - .azuredevops/pipelines/infra.yml
+
+pr:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - expense-infra/modules/*
+      - expense-infra/modules/**
+      - expense-infra/envs/*
+      - expense-infra/envs/**
+      - .azuredevops/pipelines/infra.yml
 
 variables:
   - name: azureServiceConnection
