@@ -20,7 +20,6 @@ pool:
   demands:
     - Agent.Name -equals devops-self-hosted-agent
 
-
 steps:
   - checkout: self
     fetchDepth: 0
@@ -28,28 +27,13 @@ steps:
   - bash: |
       set -euo pipefail
 
-      if ! command -v terraform >/dev/null 2>&1; then
-        TERRAFORM_VERSION=1.13.5
-        curl -fsSL -o terraform.zip "https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip"
-        unzip -o terraform.zip
-        sudo mv terraform /usr/local/bin/terraform
-        rm -f terraform.zip
-      fi
-
-      if ! command -v helm >/dev/null 2>&1; then
-        curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-      fi
-
       terraform version
       helm version --short
-    displayName: Install Terraform and Helm Tools
-
-  - bash: |
-      set -euo pipefail
 
       echo "Initialising & Validating Terraform bootstrap..."
       terraform -chdir=expense-infra/bootstrap init -backend=false
       terraform -chdir=expense-infra/bootstrap validate
+  
 
       echo "Initialising & Validating Terraform dev..."
       terraform -chdir=expense-infra/envs/dev init -backend=false
@@ -68,7 +52,7 @@ steps:
       helm template expenseflow-dev expense-deploy/helm/expenseflow \
         -f expense-deploy/helm/expenseflow/values.yaml \
         -f expense-deploy/helm/expenseflow/values-dev.yaml >/dev/null
-      
+
       echo "Validating Helm chart for prod..."
       helm template expenseflow-prod expense-deploy/helm/expenseflow \
         -f expense-deploy/helm/expenseflow/values.yaml \
