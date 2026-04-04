@@ -16,7 +16,10 @@ pr:
       - .azuredevops/**
 
 pool:
-  vmImage: ubuntu-latest
+  name: Default
+  demands:
+    - Agent.Name -equals devops-self-hosted-agent
+
 
 steps:
   - checkout: self
