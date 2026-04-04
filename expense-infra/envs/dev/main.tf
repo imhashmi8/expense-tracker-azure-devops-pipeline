@@ -13,7 +13,7 @@ module "platform" {
   aks_subnet_cidr      = "10.10.1.0/24"
   database_subnet_cidr = "10.10.2.0/24"
 
-  kubernetes_version  = "1.29.7"
+  kubernetes_version  = "1.33"
   system_node_count   = 1
   system_node_vm_size = "Standard_B4ms"
 
