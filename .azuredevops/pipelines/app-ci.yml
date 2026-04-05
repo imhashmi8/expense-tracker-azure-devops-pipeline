@@ -59,16 +59,16 @@ stages:
                 helm lint expense-deploy/helm/expenseflow
 
                 echo "Building backend image for dev ACR..."
-                az acr build                   --registry expenseflowdevacr                   --image expenseflow-backend:$(imageTag)                   ./expense-app/backend
+                az acr build --registry expenseflowdevacr --image expenseflow-backend:$(imageTag) ./expense-app/backend
 
                 echo "Building frontend image for dev ACR..."
-                az acr build                   --registry expenseflowdevacr                   --image expenseflow-frontend:$(imageTag)                   ./expense-app/frontend
+                az acr build --registry expenseflowdevacr --image expenseflow-frontend:$(imageTag) ./expense-app/frontend
 
                 echo "Building backend image for prod ACR..."
-                az acr build                   --registry expenseflowprodacr                   --image expenseflow-backend:$(imageTag)                   ./expense-app/backend
+                az acr build --registry expenseflowprodacr --image expenseflow-backend:$(imageTag) ./expense-app/backend
 
                 echo "Building frontend image for prod ACR..."
-                az acr build                   --registry expenseflowprodacr                   --image expenseflow-frontend:$(imageTag)                   ./expense-app/frontend
+                az acr build --registry expenseflowprodacr --image expenseflow-frontend:$(imageTag) ./expense-app/frontend
 
                 mkdir -p $(Build.ArtifactStagingDirectory)
                 echo $(imageTag) > $(Build.ArtifactStagingDirectory)/image-tag.txt
