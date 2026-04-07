@@ -1,0 +1,20 @@
+grafana:
+  adminUser: admin
+  adminPassword: admin12345
+
+  service:
+    type: ClusterIP
+
+  sidecar:
+    dashboards:
+      enabled: true
+      label: grafana_dashboard
+      searchNamespace: ALL
+
+prometheus:
+  service:
+    type: ClusterIP
+
+alertmanager:
+  service:
+    type: ClusterIP
